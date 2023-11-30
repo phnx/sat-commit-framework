@@ -199,6 +199,7 @@ def execute(
     selected_vcc_df = pd.DataFrame()
 
     print(f"input_file_name: {input_file_name}")
+    print(f"target commits: {selected_vcc_df.shape[0]}")
 
     # get selected_vcc
     selected_vcc_df = util.get_selected_vcc_from_file_df(
@@ -215,9 +216,10 @@ def execute(
     # PART 1 - run tool, iterate through commits
     previous_project = ""
     for _, vcc in selected_vcc_df.iterrows():
-        project = vcc["project"].str.lower()
+        project = vcc["project"].lower()
 
         if project != previous_project:
+            print("new project, clone repository")
             # clean repository before project switching
             clean_local_repository()
 
@@ -225,13 +227,15 @@ def execute(
             repo_url = "/".join(["https://github.com", project])
             clone_project(gh_repo=repo_url)
 
+            previous_project = project
+
         print(f"Assess VCC: {vcc['cve']}, {vcc['cwe']}, {vcc['hash']}")
 
-        if vcc["hash"].str.strip() == "":
+        if vcc["hash"].strip() == "":
             print("invalid commit sha, skip")
             continue
 
-        commit_sha = vcc["hash"].str.strip()
+        commit_sha = vcc["hash"].strip()
 
         # check transaction log of commit - tool
         existing_transaction = db_util.find_execution_transaction(

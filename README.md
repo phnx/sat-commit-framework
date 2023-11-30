@@ -9,7 +9,7 @@ In the current version, five widely-used C/C++ SATs i.e., CodeChecker, CodeQL, C
 With this pipeline, user can conduct various SAT experiment trials on a set of target commits and gather the results for further analyses such as the effectiveness of SATs to detect security issues in the early development process. All elements of the pipeline operate in the Docker environment for portability and scalability. To modify the runner's resources such as allocated memory or CPU cores, see [this section](#configure-runner-resource). To run a trial, user must prepare the list of target commits as described in [this section](#prepare-target-commits-for-sat-trial). Then start the trial following the instructions in [this section](#start-a-trial). 
 
 ## Future Work
-We aim to develop this pipeline into a complete end-to-end SAT benchmark for evaluating the performance of *SAT-under-test* on the target commits that contain certain issues. To do so, we are working towards accomplishing the following tasks. 
+We aim to develop this pipeline into a complete end-to-end SAT benchmark for evaluating the performance of *SAT-under-test* on the target commits that contain certain issues. To do so, we are working toward accomplishing the following tasks. 
 - Define a standard format for test oracle of the target commits i.e., a) buggy files, buggy functions, or buggy lines in target commits and b) expected issue types such as CWE number
 - Implement an analysis extension to systematically analyze and compare the SAT performance from multople trials i.e., detection effectiveness and computation time
 - Implement a reporting module that automatically translates and visualizes the analysis results
@@ -73,7 +73,7 @@ Column definition:
 3. **cwe**: CWE number that shows the vulnerability of commit, can be a dummy value if not available
 4. **hash**: a valid commit identification (commit sha) which can be checked out
 
-The sample target commit input file can be found [here](./data-ref/test-selected-project.csv).
+The sample target commit input file can be found [here](./data-ref/test-selected-commit.csv).
 
 ## Start a Trial
 In root directory, run the following command with four parameters:
@@ -89,6 +89,11 @@ bash ./start-execution.sh [runner_type] [tool_name] [instance_name] [input_csv_i
 4. **input_csv_in_data_ref_folder**: file name of a csv file in foler [`data-ref`](./data-ref/) (with .csv extension) that contain list of target commits (See [this section](#prepare-target-commits-for-sat-trial)).
 
 The SAT warnings or outputs from each trial will be stored in folder `./output/[instance_name]`, in the original format that the tool produces which can be configured following the instructions in [this section](#customize-sat-execution).
+
+To monitor the runner, use following command to print real-time logs:
+```bash
+docker container logs -f [instance_name]
+```
 
 ## Pipeline Customization
 The pipeline is designed for flexibility. User can modify various components of the pipeline to meet the specific requirements. 
@@ -257,7 +262,7 @@ Tool handle manages how pipeline interacts with each tool. To streamline the int
 When a new handle is created, it must be added to [`./script/tool/factory.py`](./script/tool/factory.py) so that the pipeline can initiate the tool handle correctly.
 
 ### Customize SAT Execution
-The tool handle (`./script/tool/tool_name/handle.py`) controls parameters used in SAT execution, which are unique for different SATs. For instance, the build commands or the output format and location. These parameters of the existing tools can be modified. See the following examples:
+The tool handle (`./script/tool/tool_name/handle.py`) controls parameters used in SAT execution, which are unique for different SATs. For instance, the build commands, the output format and location, and activated checking rules. These parameters of the existing tools can be modified. See the following examples:
 
 Single step (Cppcheck):
 ```python
