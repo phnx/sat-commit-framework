@@ -1,0 +1,265 @@
+# FROM ubuntu:22.04
+# specifying AMD64 for M1 host
+FROM --platform=linux/amd64 ubuntu:22.04
+
+# Install dependencies
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get -y update && \
+    apt-get -y install --no-install-recommends sudo \
+    apt-utils \
+    build-essential \
+    openssl \
+    clang \
+    clang-tidy \
+    git \
+    autoconf \
+    libgnutls28-dev \
+    libssl-dev \
+    llvm \
+    python3-pip \
+    net-tools \
+    vim \
+    gdb \
+    netcat \
+    strace \
+    wget \
+    # opam \
+    # project dependency
+    abi-compliance-checker \
+    abigail-tools \
+    apache2 \
+    asciidoc \
+    autogen \
+    # automake \
+    autopoint \
+    binutils-dev \
+    binutils-gold \
+    bison \
+    bsdmainutils \
+    build-essential \
+    byacc \
+    check \
+    checkinstall \
+    cmake \
+    dc \
+    debhelper \
+    docbook-utils \
+    docbook-xml \
+    docbook-xsl \
+    flex \
+    g++ \
+    gawk \
+    gcc \
+    gcc-arm-none-eabi \
+    gengetopt \
+    gettext \
+    git2cl \
+    gnulib \
+    gperf \
+    groff \
+    groff-base \
+    gtk-doc-tools \
+    help2man \
+    liba52-dev \
+    liballegro5-dev \
+    libapache2-mod-php7.4 \
+    libapparmor-dev \
+    libasound2-dev \
+    libavahi-client-dev \
+    libavahi-common-dev \
+    libavcodec-dev \
+    libavformat-dev \
+    libavutil-dev \
+    libboost-all-dev \
+    libboost-dev \
+    libbsd-dev \
+    libbz2-dev \
+    libc-ares-dev \
+    libc6 \
+    libcaca-dev \
+    libcairo2-dev \
+    libcap-dev \
+    libcap-ng-dev \
+    libcap-ng-utils \
+    libcjose-dev \
+    libcjson-dev \
+    libcmocka-dev \
+    libcunit1-dev \
+    # libcurl3-nss-dev \
+    # libcurl4-gnutls-dev \
+    libcurl4-openssl-dev \
+    libcxxtools-dev \
+    libdouble-conversion-dev \
+    libestr-dev \
+    libevent-dev \
+    libexiv2-dev \
+    libexpat1-dev \
+    libfastjson-dev \
+    libfdt-dev \
+    libfftw3-dev \
+    libfido2-dev \
+    libfl-dev \
+    libflac-dev \
+    libfreetype6-dev \
+    libgconf2-dev \
+    libgcrypt-dev \
+    libgcrypt20-dev \
+    libgd-dev \
+    libgdk-pixbuf2.0-dev \
+    libgflags-dev \
+    libgif-dev \
+    libglib2.0-dev \
+    libgoogle-glog-dev \
+    libgpgme11-dev \
+    libgphoto2-dev \
+    libgtk-3-dev \
+    libgtk2.0-dev \
+    libhidapi-dev \
+    libhidapi-hidraw0 \
+    libhtp-dev \
+    libiberty-dev \
+    libimlib2-dev \
+    libjansson-dev \
+    libjemalloc-dev \
+    libjpeg-dev \
+    libjpeg-progs \
+    libjpeg-turbo8-dev \
+    libjson-c-dev \
+    libjson-perl \
+    libkrb5-dev \
+    liblcms2-dev \
+    libldns-dev \
+    liblensfun-dev \
+    libltdl-dev \
+    liblua5.1-0-dev \
+    libluajit-5.1-dev \
+    liblz4-dev \
+    liblzma-dev \
+    liblzo2-dev \
+    libmagic-dev \
+    libmaxminddb-dev \
+    libmng-dev \
+    libmp3lame-dev \
+    libmpg123-dev \
+    libncurses5-dev \
+    libncursesw5-dev \
+    libnet1-dev \
+    libnl-3-dev \
+    libnl-genl-3-dev \
+    libnotify-dev \
+    libnspr4-dev \
+    libnss3-dev \
+    libnss3-tools \
+    libogg-dev \
+    libopus-dev \
+    libotr5-dev \
+    libp11-dev \
+    libpam-dev \
+    libpam0g-dev \
+    libpango1.0-dev \
+    libpcap-dev \
+    libpcre2-dev \
+    libpcre3-dev \
+    libpcsclite-dev \
+    libpixman-1-dev \
+    libpng-dev \
+    libpython2.7-dev \
+    libqrencode-dev \
+    libreadline-dev \
+    # libreadline-gplv2-dev \
+    librevenge-dev \
+    libselinux-dev \
+    libsignal-protocol-c-dev \
+    libsnappy-dev \
+    libsodium-dev \
+    libspiro-dev \
+    libsqlite3-dev \
+    libssl-dev \
+    libstrophe-dev \
+    libswscale-dev \
+    libsystemd-dev \
+    libtiff5-dev \
+    libtool \
+    libtool-bin \
+    libunbound-dev \
+    libunistring-dev \
+    libusb-1.0-0-dev \
+    libvorbis-dev \
+    libwebsockets-dev \
+    libpthread-stubs0-dev \
+    libx11-dev \
+    libxcursor-dev \
+    libxinerama-dev \
+    libxml2-dev \
+    libxml2-utils \
+    libxss-dev \
+    libxt-dev \
+    libyaml-0-2 \
+    libyaml-dev \
+    libz-dev \
+    lua5.2 \
+    make \
+    meson \
+    musl-dev \
+    ncurses-dev \
+    ninja-build \
+    ocl-icd-opencl-dev \
+    openjade \
+    php \
+    pkg-config \
+    protobuf-compiler \
+    python-is-python3 \
+    python2 \
+    python3 \
+    python3-dev \
+    python3-docutils \
+    python3-setuptools \
+    python3-yaml \
+    qtbase5-dev \
+    qttools5-dev \
+    qttools5-dev-tools \
+    qtwebengine5-dev \
+    ragel \
+    shtool \
+    stlink-tools \
+    swig \
+    tcl \
+    # texinfo \
+    unzip \
+    uthash-dev \
+    uuid-dev \
+    valgrind \
+    xmlto \
+    xsltproc \
+    zlib1g-dev
+
+# try to save some space
+RUN apt-get clean
+RUN apt-get autoremove
+
+# Add a new user ubuntu, pass: ubuntu
+RUN groupadd ubuntu && \
+    useradd -rm -d /home/ubuntu -s /bin/bash -g ubuntu -G sudo -u 1000 ubuntu -p "$(openssl passwd -1 ubuntu)"
+
+# RUN chmod 777 /tmp
+
+# Use ubuntu as default username
+USER ubuntu
+WORKDIR /home/ubuntu
+
+# Set up environment variables
+ENV WORKDIR="/home/ubuntu/workspace"
+
+# copy only necessary files into container
+RUN mkdir $WORKDIR
+RUN mkdir ${WORKDIR}/data
+RUN mkdir ${WORKDIR}/data-ref
+RUN mkdir ${WORKDIR}/subject
+RUN mkdir ${WORKDIR}/script
+
+COPY --chown=ubuntu:ubuntu ../../script ${WORKDIR}/script
+
+#  Install Python dependency for pipeline
+RUN echo pwd
+WORKDIR "/home/ubuntu/workspace/script"
+RUN pip install -r requirements.txt

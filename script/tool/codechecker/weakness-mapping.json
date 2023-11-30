@@ -1,0 +1,601 @@
+{
+    "alpha.security.cert.env.InvalidPtr": [
+        "CWE-664"
+    ],
+    "alpha.security.cert.pos.34c": [
+        "CWE-710"
+    ],
+    "bugprone-assert-side-effect": [
+        "CWE-691"
+    ],
+    "bugprone-copy-constructor-init": [
+        "CWE-664"
+    ],
+    "bugprone-forwarding-reference-overload": [
+        "CWE-710"
+    ],
+    "bugprone-incorrect-roundings": [
+        "CWE-682"
+    ],
+    "bugprone-infinite-loop": [
+        "CWE-691"
+    ],
+    "bugprone-integer-division": [
+        "CWE-682"
+    ],
+    "bugprone-macro-repeated-side-effects": [
+        "CWE-710"
+    ],
+    "bugprone-misplaced-widening-cast": [
+        "CWE-664"
+    ],
+    "bugprone-move-forwarding-reference": [
+        "CWE-710"
+    ],
+    "bugprone-not-null-terminated-result": [
+        "CWE-707"
+    ],
+    "bugprone-signal-handler": [
+        "CWE-691"
+    ],
+    "bugprone-signed-char-misuse": [
+        "CWE-664"
+    ],
+    "bugprone-sizeof-expression": [
+        "CWE-682"
+    ],
+    "bugprone-string-literal-with-embedded-nul": [
+        "CWE-707"
+    ],
+    "bugprone-suspicious-enum-usage": [
+        "-1"
+    ],
+    "bugprone-suspicious-memory-comparison": [
+        "CWE-697"
+    ],
+    "bugprone-suspicious-memset-usage": [
+        "CWE-710"
+    ],
+    "bugprone-suspicious-missing-comma": [
+        "CWE-710"
+    ],
+    "bugprone-suspicious-semicolon": [
+        "-1"
+    ],
+    "bugprone-terminating-continue": [
+        "CWE-710"
+    ],
+    "bugprone-too-small-loop-variable": [
+        "CWE-682",
+        "CWE-691"
+    ],
+    "bugprone-undefined-memory-manipulation": [
+        "CWE-710"
+    ],
+    "bugprone-unused-raii": [
+        "CWE-664",
+        "CWE-691"
+    ],
+    "bugprone-unused-return-value": [
+        "CWE-703"
+    ],
+    "cert-dcl58-cpp": [
+        "CWE-664"
+    ],
+    "cert-dcl59-cpp": [
+        "-1"
+    ],
+    "cert-err09-cpp": [
+        "CWE-703"
+    ],
+    "cert-fio38-c": [
+        "CWE-664"
+    ],
+    "cert-oop58-cpp": [
+        "CWE-664"
+    ],
+    "cert-pos47-c": [
+        "CWE-691"
+    ],
+    "clang-diagnostic-#pragma-messages": [
+        "-1"
+    ],
+    "clang-diagnostic-#warnings": [
+        "-1"
+    ],
+    "clang-diagnostic-absolute-value": [
+        "-1"
+    ],
+    "clang-diagnostic-address-of-packed-member": [
+        "CWE-664",
+        "CWE-710"
+    ],
+    "clang-diagnostic-array-bounds": [
+        "CWE-707"
+    ],
+    "clang-diagnostic-bitwise-instead-of-logical": [
+        "CWE-691"
+    ],
+    "clang-diagnostic-c++11-narrowing": [
+        "CWE-664"
+    ],
+    "clang-diagnostic-c++20-extensions": [
+        "-1"
+    ],
+    "clang-diagnostic-c99-extensions": [
+        "-1"
+    ],
+    "clang-diagnostic-comment": [
+        "-1"
+    ],
+    "clang-diagnostic-compound-token-split-by-macro": [
+        "-1"
+    ],
+    "clang-diagnostic-conditional-type-mismatch": [
+        "CWE-697"
+    ],
+    "clang-diagnostic-constant-logical-operand": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-dangling-else": [
+        "CWE-691"
+    ],
+    "clang-diagnostic-delete-abstract-non-virtual-dtor": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-delete-non-abstract-non-virtual-dtor": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-deprecated-copy-with-user-provided-copy": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-deprecated-declarations": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-duplicate-decl-specifier": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-dynamic-class-memaccess": [
+        "CWE-664"
+    ],
+    "clang-diagnostic-empty-body": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-enum-compare": [
+        "CWE-697"
+    ],
+    "clang-diagnostic-enum-conversion": [
+        "CWE-664"
+    ],
+    "clang-diagnostic-error": [
+        "-1"
+    ],
+    "clang-diagnostic-expansion-to-defined": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-extra-tokens": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-for-loop-analysis": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-format": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-format-extra-args": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-format-insufficient-args": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-format-invalid-specifier": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-format-pedantic": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-format-security": [
+        "CWE-664"
+    ],
+    "clang-diagnostic-fortify-source": [
+        "CWE-682"
+    ],
+    "clang-diagnostic-free-nonheap-object": [
+        "CWE-664"
+    ],
+    "clang-diagnostic-gnu-variable-sized-type-not-at-end": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-header-guard": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-ignored-attributes": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-ignored-qualifiers": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-implicit-const-int-float-conversion": [
+        "CWE-664"
+    ],
+    "clang-diagnostic-implicit-function-declaration": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-implicit-int": [
+        "CWE-664"
+    ],
+    "clang-diagnostic-incompatible-function-pointer-types": [
+        "CWE-682"
+    ],
+    "clang-diagnostic-incompatible-library-redeclaration": [
+        "-1"
+    ],
+    "clang-diagnostic-incompatible-pointer-types": [
+        "CWE-664"
+    ],
+    "clang-diagnostic-incompatible-pointer-types-discards-qualifiers": [
+        "CWE-682"
+    ],
+    "clang-diagnostic-increment-bool": [
+        "CWE-664"
+    ],
+    "clang-diagnostic-infinite-recursion": [
+        "CWE-691"
+    ],
+    "clang-diagnostic-initializer-overrides": [
+        "CWE-664"
+    ],
+    "clang-diagnostic-int-conversion": [
+        "CWE-664"
+    ],
+    "clang-diagnostic-int-in-bool-context": [
+        "CWE-664"
+    ],
+    "clang-diagnostic-int-to-pointer-cast": [
+        "CWE-682"
+    ],
+    "clang-diagnostic-int-to-void-pointer-cast": [
+        "CWE-682"
+    ],
+    "clang-diagnostic-invalid-source-encoding": [
+        "-1"
+    ],
+    "clang-diagnostic-literal-conversion": [
+        "CWE-664"
+    ],
+    "clang-diagnostic-logical-not-parentheses": [
+        "CWE-691"
+    ],
+    "clang-diagnostic-logical-op-parentheses": [
+        "CWE-691"
+    ],
+    "clang-diagnostic-macro-redefined": [
+        "-1"
+    ],
+    "clang-diagnostic-memset-transposed-args": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-misleading-indentation": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-missing-braces": [
+        "-1"
+    ],
+    "clang-diagnostic-missing-field-initializers": [
+        "CWE-664"
+    ],
+    "clang-diagnostic-multiple-move-vbase": [
+        "-1"
+    ],
+    "clang-diagnostic-non-literal-null-conversion": [
+        "CWE-664"
+    ],
+    "clang-diagnostic-null-dereference": [
+        "CWE-703",
+        "CWE-710"
+    ],
+    "clang-diagnostic-null-pointer-arithmetic": [
+        "CWE-703",
+        "CWE-710"
+    ],
+    "clang-diagnostic-null-pointer-subtraction": [
+        "CWE-682"
+    ],
+    "clang-diagnostic-parentheses": [
+        "CWE-691"
+    ],
+    "clang-diagnostic-parentheses-equality": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-pointer-bool-conversion": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-pointer-compare": [
+        "CWE-697"
+    ],
+    "clang-diagnostic-pointer-integer-compare": [
+        "CWE-697"
+    ],
+    "clang-diagnostic-pointer-sign": [
+        "CWE-664"
+    ],
+    "clang-diagnostic-pointer-to-enum-cast": [
+        "CWE-664"
+    ],
+    "clang-diagnostic-pointer-to-int-cast": [
+        "CWE-664"
+    ],
+    "clang-diagnostic-pointer-type-mismatch": [
+        "CWE-664"
+    ],
+    "clang-diagnostic-qualified-void-return-type": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-register": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-reorder-ctor": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-reserved-user-defined-literal": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-return-type": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-self-assign": [
+        "-1"
+    ],
+    "clang-diagnostic-shift-count-overflow": [
+        "CWE-682"
+    ],
+    "clang-diagnostic-shift-negative-value": [
+        "CWE-682"
+    ],
+    "clang-diagnostic-shift-op-parentheses": [
+        "CWE-691"
+    ],
+    "clang-diagnostic-shift-overflow": [
+        "CWE-682"
+    ],
+    "clang-diagnostic-sign-compare": [
+        "CWE-697"
+    ],
+    "clang-diagnostic-sizeof-array-div": [
+        "CWE-682"
+    ],
+    "clang-diagnostic-sizeof-pointer-memaccess": [
+        "CWE-682"
+    ],
+    "clang-diagnostic-sometimes-uninitialized": [
+        "CWE-664"
+    ],
+    "clang-diagnostic-static-in-inline": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-string-compare": [
+        "CWE-691"
+    ],
+    "clang-diagnostic-string-concatenation": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-string-plus-int": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-strncat-size": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-switch": [
+        "CWE-697"
+    ],
+    "clang-diagnostic-tautological-constant-compare": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-tautological-constant-out-of-range-compare": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-tautological-overlap-compare": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-tautological-pointer-compare": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-trigraphs": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-undefined-inline": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-undefined-var-template": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-uninitialized": [
+        "CWE-664"
+    ],
+    "clang-diagnostic-uninitialized-const-reference": [
+        "CWE-664"
+    ],
+    "clang-diagnostic-unknown-attributes": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-unneeded-internal-declaration": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-unsequenced": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-unused-but-set-parameter": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-unused-but-set-variable": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-unused-comparison": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-unused-const-variable": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-unused-function": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-unused-label": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-unused-parameter": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-unused-private-field": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-unused-value": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-unused-variable": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-varargs": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-visibility": [
+        "-1"
+    ],
+    "clang-diagnostic-void-pointer-to-enum-cast": [
+        "CWE-664"
+    ],
+    "clang-diagnostic-void-pointer-to-int-cast": [
+        "CWE-664"
+    ],
+    "clang-diagnostic-writable-strings": [
+        "CWE-710"
+    ],
+    "clang-diagnostic-xor-used-as-pow": [
+        "CWE-691"
+    ],
+    "concurrency-thread-canceltype-asynchronous": [
+        "CWE-691"
+    ],
+    "core.CallAndMessage": [
+        "CWE-710"
+    ],
+    "core.DivideZero": [
+        "CWE-682"
+    ],
+    "core.NonNullParamChecker": [
+        "CWE-703"
+    ],
+    "core.NullDereference": [
+        "CWE-703",
+        "CWE-710"
+    ],
+    "core.StackAddressEscape": [
+        "CWE-710"
+    ],
+    "core.UndefinedBinaryOperatorResult": [
+        "CWE-703",
+        "CWE-707"
+    ],
+    "core.uninitialized.ArraySubscript": [
+        "CWE-707"
+    ],
+    "core.uninitialized.Assign": [
+        "CWE-664"
+    ],
+    "core.uninitialized.Branch": [
+        "CWE-664"
+    ],
+    "core.uninitialized.UndefReturn": [
+        "CWE-664"
+    ],
+    "core.VLASize": [
+        "CWE-710"
+    ],
+    "cplusplus.NewDelete": [
+        "CWE-664"
+    ],
+    "cplusplus.NewDeleteLeaks": [
+        "CWE-664"
+    ],
+    "cplusplus.StringChecker": [
+        "CWE-703",
+        "CWE-710"
+    ],
+    "cppcoreguidelines-special-member-functions": [
+        "CWE-710"
+    ],
+    "cppcoreguidelines-virtual-class-destructor": [
+        "CWE-710"
+    ],
+    "deadcode.DeadStores": [
+        "CWE-710"
+    ],
+    "google-build-namespaces": [
+        "-1"
+    ],
+    "google-global-names-in-headers": [
+        "-1"
+    ],
+    "misc-definitions-in-headers": [
+        "CWE-710"
+    ],
+    "misc-misplaced-const": [
+        "CWE-664"
+    ],
+    "misc-redundant-expression": [
+        "CWE-710"
+    ],
+    "misc-unconventional-assign-operator": [
+        "CWE-710"
+    ],
+    "optin.cplusplus.VirtualCall": [
+        "CWE-710"
+    ],
+    "optin.portability.UnixAPI": [
+        "CWE-710"
+    ],
+    "performance-move-const-arg": [
+        "CWE-710"
+    ],
+    "performance-noexcept-move-constructor": [
+        "CWE-710"
+    ],
+    "readability-container-data-pointer": [
+        "CWE-707"
+    ],
+    "readability-suspicious-call-argument": [
+        "CWE-710"
+    ],
+    "security.FloatLoopCounter": [
+        "CWE-697"
+    ],
+    "security.insecureAPI.mktemp": [
+        "CWE-664"
+    ],
+    "security.insecureAPI.UncheckedReturn": [
+        "CWE-703"
+    ],
+    "security.insecureAPI.vfork": [
+        "CWE-710"
+    ],
+    "unix.cstring.BadSizeArg": [
+        "CWE-710"
+    ],
+    "unix.cstring.NullArg": [
+        "CWE-710"
+    ],
+    "unix.Malloc": [
+        "CWE-664"
+    ],
+    "unix.MallocSizeof": [
+        "CWE-664"
+    ],
+    "unix.Vfork": [
+        "CWE-710"
+    ],
+    "valist.Uninitialized": [
+        "CWE-664"
+    ],
+    "valist.Unterminated": [
+        "CWE-664"
+    ]
+}

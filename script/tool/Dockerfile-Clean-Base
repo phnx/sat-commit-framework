@@ -1,0 +1,55 @@
+# FROM ubuntu:22.04
+# specifying AMD64 for M1 host
+FROM --platform=linux/amd64 ubuntu:22.04
+
+# Install dependencies
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get -y update && \
+    apt-get -y install --no-install-recommends sudo \
+    apt-utils \
+    build-essential \
+    openssl \
+    clang \
+    clang-tidy \
+    cmake \
+    git \
+    autoconf \
+    pkgconf \
+    libgnutls28-dev \
+    libssl-dev \
+    llvm \
+    python3-pip \
+    net-tools \
+    vim \
+    gdb \
+    netcat \
+    strace \
+    wget
+
+# Add a new user ubuntu, pass: ubuntu
+RUN groupadd ubuntu && \
+    useradd -rm -d /home/ubuntu -s /bin/bash -g ubuntu -G sudo -u 1000 ubuntu -p "$(openssl passwd -1 ubuntu)"
+
+# RUN chmod 777 /tmp
+
+# Use ubuntu as default username
+USER ubuntu
+WORKDIR /home/ubuntu
+
+# Set up environment variables
+ENV WORKDIR="/home/ubuntu/workspace"
+
+# copy only foundational files into container
+RUN mkdir $WORKDIR
+RUN mkdir ${WORKDIR}/data
+RUN mkdir ${WORKDIR}/data-ref
+RUN mkdir ${WORKDIR}/output
+RUN mkdir ${WORKDIR}/subject
+RUN mkdir ${WORKDIR}/script
+
+COPY --chown=ubuntu:ubuntu ../../script ${WORKDIR}/script
+
+#  Install Python dependency for pipeline
+RUN echo pwd
+WORKDIR "/home/ubuntu/workspace/script"
+RUN pip install -r requirements.txt

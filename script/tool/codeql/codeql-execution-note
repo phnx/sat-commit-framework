@@ -1,0 +1,20 @@
+
+
+# how to run this tool
+
+codeql database create \
+    '../database' \
+    --language='cpp' \
+    --command='make -j 8' \
+    --source-root='./'\
+    --threads=16\
+    --ram=65536
+                
+codeql database analyze \
+        --threads=16\
+        --ram=65536\
+        # --format='csv' \
+        --format='sarif-latest' \
+        --output='../result/result.csv' \
+        '../database' \
+        codeql/cpp-queries:codeql-suites/cpp-lgtm-full.qls

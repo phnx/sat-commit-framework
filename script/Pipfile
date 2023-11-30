@@ -1,0 +1,30 @@
+[packages]
+pandas = "*"
+openpyxl = "*"
+feather-format = "*"
+matplotlib = "*"
+tabulate = "*"
+urllib3 = "*"
+scipy = "*"
+python-dotenv = "*"
+pygithub = "*"
+pydriller = "*"
+pyyaml = "*"
+gitpython = "*"
+psycopg2-binary = "*"
+sarif-tools = "*"
+networkx = "*"
+pytest = "*"
+whatthepatch = "*"
+lizard = "*"
+clang = "*"
+libclang = "*"
+ftfy = "*"
+seaborn = "*"
+
+[requires]
+python_version = "3.9"
+
+[dev-packages]
+black = "*"
+flake8 = "*"

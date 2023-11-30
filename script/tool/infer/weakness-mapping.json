@@ -1,0 +1,17 @@
+{
+    "UNINITIALIZED_VALUE": [
+        "CWE-457"
+    ],
+    "NULL_DEREFERENCE": [
+        "CWE-476"
+    ],
+    "DEAD_STORE": [
+        "CWE-1076"
+    ],
+    "RESOURCE_LEAK": [
+        "CWE-402"
+    ],
+    "POINTER_TO_INTEGRAL_IMPLICIT_CAST": [
+        "CWE-704"
+    ]
+}
