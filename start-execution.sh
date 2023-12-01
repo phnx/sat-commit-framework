@@ -5,22 +5,30 @@
 DOCKER_BASE=$1
 TOOL=$2
 INSTANCE_NAME=$3
-OPT_COMMAND=$4
+INPUT_FILE=$4
+RECORD_DATA=$5
 
 if [ $DOCKER_BASE == "custom" ]; then
     IMAGE_NAME="jammy-base"
 elif [ $DOCKER_BASE == "clean" ]; then
     IMAGE_NAME="clean-base"
 else
-    echo "try: bash ./start-execution.sh [custom|clean] [tool_name] [instance_name] [custom_opt]"
+    echo "try: bash ./start-execution.sh [custom|clean] [tool_name] [instance_name] [input_file] [record_data:yes|no]"
     exit -1
+fi
+
+if [ $RECORD_DATA == "yes"]; then
+    USE_DATABASE="yes"
+else
+    USE_DATABASE="no"
 fi
 
 echo "setting up a docker instance for $TOOL as $INSTANCE_NAME"
 echo "choosing base: $DOCKER_BASE"
-echo "custom command for tool: $OPT_COMMAND"
+echo "input file: $INPUT_FILE"
 
 echo "instance name: $INSTANCE_NAME"
+echo "use database: $USE_DATABASE"
 
 # start database container, if needed : auto-tool-investigation-db
 # docker-compose -f docker/database.yml up -d
@@ -53,4 +61,4 @@ docker run -d --network=host \
     -v "$PWD/script":/home/ubuntu/workspace/script:ro \
     -v "$PWD/data-ref":/home/ubuntu/workspace/data-ref:ro \
     $IMAGE_NAME \
-    bash /home/ubuntu/workspace/script/tool/$TOOL/entrypoint.sh $INSTANCE_NAME $OPT_COMMAND
+    bash /home/ubuntu/workspace/script/tool/$TOOL/entrypoint.sh $INSTANCE_NAME $INPUT_FILE $USE_DATABASE

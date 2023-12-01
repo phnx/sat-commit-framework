@@ -1,7 +1,8 @@
 #!/bin/bash
 
 INSTANCE_NAME=$1
-OPT_COMMAND=$2
+INPUT_FILE=$2
+USE_DATABASE=$3
 
 echo "Docker entry point for codeql"
 
@@ -22,4 +23,4 @@ codeql resolve qlpacks
 cd /home/ubuntu/workspace/script
 
 # run pipeline with selected tool
-python3 -u pipeline.py codeql $INSTANCE_NAME $OPT_COMMAND
+python3 -u pipeline.py codeql $INSTANCE_NAME $INPUT_FILE $USE_DATABASE

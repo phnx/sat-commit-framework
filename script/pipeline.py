@@ -89,7 +89,6 @@ def clone_project(gh_repo: str) -> None:
 def analyze_commit(
     conn,
     cur,
-    test: bool,
     trial_name: str,
     project: str,
     commit_sha: str,
@@ -97,6 +96,7 @@ def analyze_commit(
     tool: str,
     tool_handle: ToolClass,
     is_vcc_parent: bool = False,
+    test: bool = True,
 ) -> None:
     clean_temp_folder()
 
@@ -104,9 +104,7 @@ def analyze_commit(
     os.chdir("../subject")
 
     # state execution status
-    execution_status = "TEST"
-    if not test:
-        execution_status = "SUCCESS"
+    execution_status = "SUCCESS"
 
     output_filename = util.get_output_filename(project=project, commit_sha=commit_sha)
 
@@ -163,25 +161,26 @@ def analyze_commit(
 
     output_result_counts = tool_handle.count_result(output_filename=output_filename)
 
-    # register transaction log - VCC & parent
-    db_util.add_execution_transaction(
-        conn=conn,
-        cur=cur,
-        transaction_data={
-            "trial_name": trial_name,
-            "project": project,
-            "tool": tool,
-            "tool_type": tool_handle.get_tool_type(),
-            "commit_sha": commit_sha,
-            "parent_commit_sha": ",".join(parent_commits),
-            "is_parent_commit": is_vcc_parent,
-            "result_location": "TODO",
-            "result_count": output_result_counts,
-            "execution_status": execution_status,
-            "start_time": start_time,
-            "end_time": end_time,
-        },
-    )
+    if not test:
+        # register transaction log - VCC & parent
+        db_util.add_execution_transaction(
+            conn=conn,
+            cur=cur,
+            transaction_data={
+                "trial_name": trial_name,
+                "project": project,
+                "tool": tool,
+                "tool_type": tool_handle.get_tool_type(),
+                "commit_sha": commit_sha,
+                "parent_commit_sha": ",".join(parent_commits),
+                "is_parent_commit": is_vcc_parent,
+                "result_location": "TODO",
+                "result_count": output_result_counts,
+                "execution_status": execution_status,
+                "start_time": start_time,
+                "end_time": end_time,
+            },
+        )
 
     # return to script folder
     os.chdir("../script")
@@ -192,7 +191,7 @@ def execute(
     tool: str,
     trial_name: str,
     input_file_name: str = "",
-    test: bool = False,
+    test: bool = True,
 ) -> None:
     print(f"Execute: {tool}")
 
@@ -206,8 +205,11 @@ def execute(
         input_file_name=input_file_name
     )
 
-    # transaction database
-    conn, cur = db_util.connect_database()
+    conn = None
+    cur = None
+    if not test:
+        # transaction database
+        conn, cur = db_util.connect_database()
 
     # initiate tool handle
     tool_handle = get_tool_handle(name=tool)
@@ -237,14 +239,17 @@ def execute(
 
         commit_sha = vcc["hash"].strip()
 
-        # check transaction log of commit - tool
-        existing_transaction = db_util.find_execution_transaction(
-            cur=cur,
-            trial_name=trial_name,
-            project=project,
-            tool=tool,
-            commit_sha=commit_sha,
-        )
+        existing_transaction = []
+
+        if not test:
+            # check transaction log of commit - tool
+            existing_transaction = db_util.find_execution_transaction(
+                cur=cur,
+                trial_name=trial_name,
+                project=project,
+                tool=tool,
+                commit_sha=commit_sha,
+            )
 
         # get vcc
         if len(existing_transaction) != 0:
@@ -266,7 +271,6 @@ def execute(
             analyze_commit(
                 conn,
                 cur,
-                test=test,
                 trial_name=trial_name,
                 project=project,
                 commit_sha=commit_sha,
@@ -274,6 +278,7 @@ def execute(
                 tool=tool,
                 tool_handle=tool_handle,
                 is_vcc_parent=False,
+                test=test,
             )
 
             # reset repository - post-cleanup
@@ -281,24 +286,25 @@ def execute(
 
         else:
             # record failed checkout
-            db_util.add_execution_transaction(
-                conn=conn,
-                cur=cur,
-                transaction_data={
-                    "trial_name": trial_name,
-                    "project": project,
-                    "tool": tool,
-                    "tool_type": tool_handle.get_tool_type(),
-                    "commit_sha": commit_sha,
-                    "parent_commit_sha": "",
-                    "is_parent_commit": False,
-                    "result_location": "TODO",
-                    "result_count": -1,
-                    "execution_status": "CHECKOUT_FAILED",
-                    "start_time": None,
-                    "end_time": None,
-                },
-            )
+            if not test:
+                db_util.add_execution_transaction(
+                    conn=conn,
+                    cur=cur,
+                    transaction_data={
+                        "trial_name": trial_name,
+                        "project": project,
+                        "tool": tool,
+                        "tool_type": tool_handle.get_tool_type(),
+                        "commit_sha": commit_sha,
+                        "parent_commit_sha": "",
+                        "is_parent_commit": False,
+                        "result_location": "TODO",
+                        "result_count": -1,
+                        "execution_status": "CHECKOUT_FAILED",
+                        "start_time": None,
+                        "end_time": None,
+                    },
+                )
 
 
 # accept parameters to select tool, unique trial_name,
@@ -309,6 +315,7 @@ if __name__ == "__main__":
     tool = args[0]
     trial_name = None
     input_file_name = ""
+    use_database = ""
 
     if len(args) > 1:
         trial_name = args[1]
@@ -316,14 +323,21 @@ if __name__ == "__main__":
     if len(args) > 2:
         input_file_name = args[2]
 
+    if len(args) > 3:
+        use_database = args[3]
+
     # verify tool
     if not verify_tool(tool=tool):
         sys.exit("selected tool does not exist")
+
+    test = True
+    if use_database == "yes":
+        test = False
 
     # tool execution
     execute(
         tool=tool,
         trial_name=trial_name,
         input_file_name=input_file_name,
-        test=False,
+        test=test,
     )

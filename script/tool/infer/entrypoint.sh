@@ -1,7 +1,8 @@
 #!/bin/bash
 
 INSTANCE_NAME=$1
-OPT_COMMAND=$2
+INPUT_FILE=$2
+USE_DATABASE=$3
 
 echo "Docker entry point for infer"
 
@@ -18,4 +19,4 @@ export PATH=/home/ubuntu/infer-linux64-v$VERSION/bin:$PATH
 cd /home/ubuntu/workspace/script
 
 # run pipeline with selected tool
-python3 -u pipeline.py infer $INSTANCE_NAME $OPT_COMMAND
+python3 -u pipeline.py infer $INSTANCE_NAME $INPUT_FILE $USE_DATABASE

@@ -1,7 +1,8 @@
 #!/bin/bash
 
 INSTANCE_NAME=$1
-OPT_COMMAND=$2
+INPUT_FILE=$2
+USE_DATABASE=$3
 
 echo "Docker entry point for cppcheck"
 
@@ -26,4 +27,4 @@ export PATH=/home/ubuntu/cppcheck-$VERSION/build/bin:$PATH
 cd /home/ubuntu/workspace/script
 
 # run pipeline with selected tool
-python3 -u pipeline.py cppcheck $INSTANCE_NAME $OPT_COMMAND
+python3 -u pipeline.py cppcheck $INSTANCE_NAME $INPUT_FILE $USE_DATABASE

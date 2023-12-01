@@ -61,7 +61,7 @@ select * from execution_log;
 ```
 
 ## Prepare Target Commits for SAT Trial
-The list of target code commits for SAT analysis stored in CVS file in following format.
+The list of target code commits for SAT analysis stored in CSV file in following format.
 ```text
 project,cve,cwe,hash
 memcached/memcached,CVE-2010-1152,707,32f382b605b4565bddfae5c9d082af3bfd30cf02
@@ -78,7 +78,7 @@ The sample target commit input file can be found [here](./data-ref/test-selected
 ## Start a Trial
 In root directory, run the following command with four parameters:
 ```console
-bash ./start-execution.sh [runner_type] [tool_name] [instance_name] [input_csv_in_data_ref_folder]
+bash ./start-execution.sh [runner_type] [tool_name] [instance_name] [input_csv_in_data_ref_folder] [record_data:yes|no]
 ```
 
 1. **runner_type**: select the type of runner that is suitable for the selected SAT. 
@@ -87,6 +87,16 @@ bash ./start-execution.sh [runner_type] [tool_name] [instance_name] [input_csv_i
 2. **tool_name**: a name of SAT integrated in the pipeline, by default five SATs are available: `codechecker`, `codeql`, `cppcheck`, `infer`, and `flawfinder`.
 3. **instance_name**: a unique name that can identify the trial. This name will be used in central database and as the result folder.
 4. **input_csv_in_data_ref_folder**: file name of a csv file in foler [`data-ref`](./data-ref/) (with .csv extension) that contain list of target commits (See [this section](#prepare-target-commits-for-sat-trial)).
+5. **record_data:yes|no**: record execution results in database. in case of *no*, the runner operates without communicating with central database.
+
+For example:
+```console
+# CodeQL trial with database record
+bash ./start-execution.sh custom codeql codeql-trial1 test-selected-commit.csv yes
+
+# Flawfinder trial without database record
+bash ./start-execution.sh clean flawfinder flawfinder-trial1 test-selected-commit.csv no
+```
 
 The SAT warnings or outputs from each trial will be stored in folder `./output/[instance_name]`, in the original format that the tool produces which can be configured following the instructions in [this section](#customize-sat-execution).
 

@@ -1,7 +1,8 @@
 #!/bin/bash
 
 INSTANCE_NAME=$1
-OPT_COMMAND=$2
+INPUT_FILE=$2
+USE_DATABASE=$3
 
 echo "Docker entry point for codechecker"
 
@@ -22,7 +23,7 @@ CodeChecker version
 cd /home/ubuntu/workspace/script
 
 # run pipeline with selected tool
-python3 -u pipeline.py codechecker $INSTANCE_NAME $OPT_COMMAND
+python3 -u pipeline.py codechecker $INSTANCE_NAME $INPUT_FILE $USE_DATABASE
 
 # alternative scenario (the target version cannot be installed from PIP)
 # manual installation (and manual pipeline stating)
