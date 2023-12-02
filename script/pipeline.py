@@ -198,12 +198,12 @@ def execute(
     selected_vcc_df = pd.DataFrame()
 
     print(f"input_file_name: {input_file_name}")
-    print(f"target commits: {selected_vcc_df.shape[0]}")
 
     # get selected_vcc
     selected_vcc_df = util.get_selected_vcc_from_file_df(
         input_file_name=input_file_name
     )
+    print(f"target commits: {selected_vcc_df.shape[0]}")
 
     conn = None
     cur = None

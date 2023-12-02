@@ -49,7 +49,7 @@ class handle(ToolClass):
         return [
             [
                 "cppcheck",
-                "-j 8",
+                "-j 1",
                 ".",
                 "--xml",
                 f"--output-file=../output/{output_filename}.xml",

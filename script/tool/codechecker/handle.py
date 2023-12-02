@@ -51,10 +51,10 @@ class handle(ToolClass):
             [
                 "CodeChecker",
                 "check",
-                "-j8",
+                "-j1",
                 "--build",
-                "make -j8 -i",
-                "--enable-all",  # NOTE non-default checker
+                "make -j1 -i",
+                # "--enable-all",  # NOTE non-default checker
                 "-o=./reports",
                 "--clean",
             ],

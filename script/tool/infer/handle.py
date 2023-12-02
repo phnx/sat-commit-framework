@@ -50,17 +50,17 @@ class handle(ToolClass):
             [
                 "infer",
                 "-j",
-                "8",  # tested on Apple M1 host, only #job=1 works
+                "1",  # tested on Apple M1 host, only #job=1 works
                 "-o",
                 f"../output/{output_filename}",
                 "run",
-                "--annotation-reachability",  # NOTE non-default checker
-                "--bufferoverrun",  # NOTE non-default checker
-                "--bo-field-depth-limit",  # NOTE prevent OOM, cont.
-                "3",  # NOTE prevent OOM
-                "--loop-hoisting",  # NOTE non-default checker
-                "--pulse",  # NOTE non-default checker
-                "--quandary",  # NOTE non-default checker
+                # "--annotation-reachability",  # NOTE non-default checker
+                # "--bufferoverrun",  # NOTE non-default checker
+                # "--bo-field-depth-limit",  # NOTE prevent OOM, cont.
+                # "3",  # NOTE prevent OOM
+                # "--loop-hoisting",  # NOTE non-default checker
+                # "--pulse",  # NOTE non-default checker
+                # "--quandary",  # NOTE non-default checker
                 "--",
                 "make",
                 "-i",
