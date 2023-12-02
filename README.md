@@ -281,7 +281,7 @@ def get_analysis_commands(self, output_filename: str) -> list:
         return [
             [
                 "cppcheck",
-                "-j 8",
+                "-j 1",
                 ".",
                 "--xml",
                 f"--output-file=../output/{output_filename}.xml",
@@ -300,17 +300,13 @@ def get_analysis_commands(self, output_filename: str) -> list:
                 "create",
                 "../temp",
                 "--language=cpp",
-                "--command=make -j8 -i",    # create database with make command
+                "--command=make -j1 -i",    # create database with make command
                 "--source-root=./",
-                "--threads=16",
-                "--ram=65536",
             ],
             [
                 "codeql",
                 "database",
                 "analyze",
-                "--threads=16",
-                "--ram=65536",
                 "--format=sarif-latest",    # set output format
                 f"--output=../output/{output_filename}.sarif", 
                 "../temp",
@@ -318,3 +314,5 @@ def get_analysis_commands(self, output_filename: str) -> list:
             ],
         ]
 ```
+
+Note that, by default, the pipeline executes tools with single job (-j 1) and does not activate or deactivate any rules other than what each tool initialy enabled.
