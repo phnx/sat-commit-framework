@@ -4,7 +4,7 @@
 This automated pipeline is developed for facilitating the large-scale experiments of C/C++ Static Analysis Tools on the target set of open-source code commits (i.e., GitHub commits). 
 The pipeline consists of two major parts: the central database and the runners. Each runner is responsible for running a experiment trial i.e., executing a selected SAT on a set of target commits and storing the warnings or reports in a folder on host machine. The central database collects the execution results (i.e., succcess, failed, checkedout_failed, or timeout) and start-end timestamps of each commit from each trial.
 
-In the current version, five widely-used C/C++ SATs i.e., CodeChecker, CodeQL, Cppcheck, Flawfinder, and Infer are integrated. Users can freely added the new SATs of choice or modify the existing pipeline components by following the instructions in [this section](#pipeline-customization). Technically, this pipeline should also support SATs and target commits of other programming languages (including the commits hosted on other platforms) as long as the commit is accessible via a certain URL and the SATs can run on command-line. However, it has neither been implemented nor tested.
+In the current version, five widely-used C/C++ SATs i.e., CodeChecker, CodeQL, Cppcheck, Flawfinder, and Infer are integrated. Users can freely added the new SATs of choice or modify the existing pipeline components by following the instructions in [this section](#pipeline-customization). Technically, this pipeline should also support SATs and target commits of other programming languages (including the commits hosted on other platforms) as long as the commit is accessible via a certain URL and the SATs can run on command-line. However, it has neither been implemented nor tested. Users are encouraged to visit the known limitations which are listed in [this section](#limitations) prior to using  the pipeline.
 
 With this pipeline, user can conduct various SAT experiment trials on a set of target commits and gather the results for further analyses such as the effectiveness of SATs to detect security issues in the early development process. All elements of the pipeline operate in the Docker environment for portability and scalability. To modify the runner's resources such as allocated memory or CPU cores, see [this section](#configure-runner-resource). To run a trial, user must prepare the list of target commits as described in [this section](#prepare-target-commits-for-sat-trial). Then start the trial following the instructions in [this section](#start-a-trial). 
 
@@ -16,6 +16,9 @@ We aim to develop this pipeline into a complete end-to-end SAT benchmark for eva
 
 ## Pipeline Workflow
 ```plaintext
+Build Central Database Image
+Build Runner Image (Manage Target Commit Dependencies)
+=======================
 Start Central Database --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
 Start Runner 1 --                                                                                                                                             ^
                  \                                                                                                                                            |
@@ -316,3 +319,13 @@ def get_analysis_commands(self, output_filename: str) -> list:
 ```
 
 Note that, by default, the pipeline executes tools with single job (-j 1) and does not activate or deactivate any rules other than what each tool initialy enabled.
+
+
+## Limitations
+Despite being designed for large-scale experiments, the pipeline has some noteworthy technical limitations that should be understood by the users.
+- **Runner's Resource**: Some SATs may terminate the execution abruptly if the allocated resources e.g., disk space on host machine or the memory are insufficient. However, the resource requirements depend on the SAT settings. For example, CodeQL has the [soft-limit](https://github.com/github/codeql-cli-binaries/issues/11) on memory. It is recommended that users allocate enough resource and monitor the execution in order to adjust the resource allocation when the issue occurs.
+- **Potential Incompatible SAT Configurations on Certain System**: In particular, we encountered  the error when running Infer with more than one job assignment (-j2, -j3, ...) on MacOS (M1 and M2). This issue does not occur on other host system such as Ubuntu. Therefore, all SATs in our pipeline are running with -j1 by default to overcome this issue. Please see [this section](#customize-sat-execution) to modify the configuration, if necessary. Additionally, there can be other configuration issues in other tools that we haven't yet discovered.
+- **Unique Pre-Compilation Steps**: Our pre-compilation step (see [this section](#target-commit-pre-compilation-process)) can support most C/C++ projects that use the typical build process. Specifically, the script executes either `autogen.sh`, `build.sh`, or `bootstrap.sh` to generate build configuration files. Then, it executes `configure` to prepare for build process. This pre-compilation process should be modified if the target commits follow the alternate approaches such as having the build configuration generation file under other names.
+- **Unlisted Target Commit Dependencies**: Although many frequently-used packages are installed in the runner's base image, some target commits from the other projects may require other packages that are not included. Users should monitor the execution and review the error messages when the execution failed during the compilation or pre-compilation steps. Target commit dependencies can be managed following the instruction in [this section](#manage-target-commit-dependency).
+
+We would like to thankfully acknowledge the support from our colleagues who reported these limitations and provided the valuable feedback to improve this pipeline.
