@@ -1,20 +1,20 @@
-# Automated Pipeline for Large-Scale Experiment of Static Analysis Tools (SATs) on Code Commits
+# An Extensible Automated Benchmarking Framework for Static Analyis Tool Evaluation Using Open-Source Code Commits
 
 ## Overview
-This automated pipeline is developed for facilitating the large-scale experiments of C/C++ Static Analysis Tools on the target set of open-source code commits (i.e., GitHub commits). 
-The pipeline consists of two major parts: the central database and the runners. Each runner is responsible for running a experiment trial i.e., executing a selected SAT on a set of target commits and storing the warnings or reports in a folder on host machine. The central database collects the execution results (i.e., succcess, failed, checkedout_failed, or timeout) and start-end timestamps of each commit from each trial.
+This automated framework is developed for facilitating the large-scale experiments of C/C++ Static Analysis Tools on the target set of open-source code commits (i.e., GitHub commits). 
+The framework consists of two major parts: the central database and the runners. Each runner is responsible for running a experiment trial in the pipeline i.e., executing a selected SAT on a set of target commits and storing the warnings or reports in a folder on host machine. The central database collects the execution results (i.e., succcess, failed, checkedout_failed, or timeout) and start-end timestamps of each commit from each trial.
 
-In the current version, five widely-used C/C++ SATs i.e., CodeChecker, CodeQL, Cppcheck, Flawfinder, and Infer are integrated. Users can freely added the new SATs of choice or modify the existing pipeline components by following the instructions in [this section](#pipeline-customization). Technically, this pipeline should also support SATs and target commits of other programming languages (including the commits hosted on other platforms) as long as the commit is accessible via a certain URL and the SATs can run on command-line. However, it has neither been implemented nor tested. Users are encouraged to visit the known limitations which are listed in [this section](#limitations) prior to using  the pipeline.
+In the current version, five widely-used C/C++ SATs i.e., CodeChecker, CodeQL, Cppcheck, Flawfinder, and Infer are integrated. Users can freely added the new SATs of choice or modify the existing framework components by following the instructions in [this section](#framework-customization). Technically, this framework should also support SATs and target commits of other programming languages (including the commits hosted on other platforms) as long as the commit is accessible via a certain URL and the SATs can run on command-line. However, it has neither been implemented nor tested. Users are encouraged to visit the known limitations which are listed in [this section](#limitations) prior to using  the framework.
 
-With this pipeline, user can conduct various SAT experiment trials on a set of target commits and gather the results for further analyses such as the effectiveness of SATs to detect security issues in the early development process. All elements of the pipeline operate in the Docker environment for portability and scalability. To modify the runner's resources such as allocated memory or CPU cores, see [this section](#configure-runner-resource). To run a trial, user must prepare the list of target commits as described in [this section](#prepare-target-commits-for-sat-trial). Then start the trial following the instructions in [this section](#start-a-trial). 
+With this framework, user can conduct various SAT experiment trials on a set of target commits and gather the results for further analyses such as the effectiveness of SATs to detect security issues in the early development process. All elements of the framework operate in the Docker environment for portability and scalability. To modify the runner's resources such as allocated memory or CPU cores, see [this section](#configure-runner-resource). To run a trial, user must prepare the list of target commits as described in [this section](#prepare-target-commits-for-sat-trial). Then start the trial following the instructions in [this section](#start-a-trial). 
 
 ## Future Work
-We aim to develop this pipeline into a complete end-to-end SAT benchmark for evaluating the performance of *SAT-under-test* on the target commits that contain certain issues. To do so, we are working toward accomplishing the following tasks. 
+We aim to develop this framework into a complete end-to-end SAT benchmark for evaluating the performance of *SAT-under-test* on the target commits that contain certain issues. To do so, we are working toward accomplishing the following tasks. 
 - Define a standard format for test oracle of the target commits i.e., a) buggy files, buggy functions, or buggy lines in target commits and b) expected issue types such as CWE number
 - Implement an analysis extension to systematically analyze and compare the SAT performance from multople trials i.e., detection effectiveness and computation time
 - Implement a reporting module that automatically translates and visualizes the analysis results
 
-## Pipeline Workflow
+## Framework Workflow
 ```plaintext
 Build Central Database Image
 Build Runner Image (Manage Target Commit Dependencies)
@@ -35,7 +35,7 @@ Start Runner 2 ....
 ```
 
 ## System Requirement
-The pipeline was tested on MacOS 14.1.1 (M1 chip) and Ubuntu 20.04. Make sure that following software is installed and working properly:
+The framework was tested on MacOS 14.1.1 (M1 chip) and Ubuntu 20.04. Make sure that following software is installed and working properly:
 - Docker Engine version 24.0.6 or newer
 - Or Docker Desktop version 4.25.1 or newer (this includes Docker Engine)
 
@@ -87,7 +87,7 @@ bash ./start-execution.sh [runner_type] [tool_name] [instance_name] [input_csv_i
 1. **runner_type**: select the type of runner that is suitable for the selected SAT. 
    1. `custom` runner has all the dependencies (See [this section](#manage-target-commit-dependency)) installed to support SAT that requires compilation of the test subject
    2. `clean` runner has only fundamental dependencies to run SATs that do not require the compilation
-2. **tool_name**: a name of SAT integrated in the pipeline, by default five SATs are available: `codechecker`, `codeql`, `cppcheck`, `infer`, and `flawfinder`.
+2. **tool_name**: a name of SAT integrated in the framework, by default five SATs are available: `codechecker`, `codeql`, `cppcheck`, `infer`, and `flawfinder`.
 3. **instance_name**: a unique name that can identify the trial. This name will be used in central database and as the result folder.
 4. **input_csv_in_data_ref_folder**: file name of a csv file in foler [`data-ref`](./data-ref/) (with .csv extension) that contain list of target commits (See [this section](#prepare-target-commits-for-sat-trial)).
 5. **record_data:yes|no**: record execution results in database. in case of *no*, the runner operates without communicating with central database.
@@ -108,8 +108,8 @@ To monitor the runner, use following command to print real-time logs:
 docker container logs -f [instance_name]
 ```
 
-## Pipeline Customization
-The pipeline is designed for flexibility. User can modify various components of the pipeline to meet the specific requirements. 
+## Framework Customization
+The framework is designed for flexibility. User can modify various components of the framework to meet the specific requirements. 
 
 ### Configure Runner Resource
 Allocated resources for the runner can be modified in [`start-execution.sh`](start-execution.sh) in the following command:
@@ -143,7 +143,7 @@ RUN apt-get -y update && \
 Delete docker containers (existing runners) and image; then, rebuild the image (or simply start the new trial) to let the change take effect.
 
 ### Target Commit Pre-Compilation Process
-Currently, the pipeline only supports target commits that use [GNU Automake](https://www.gnu.org/software/automake/manual/automake.html) build process. For each commit, [`./script/tool/pre-compile.sh`](./script/tool/pre-compile.sh) is run prior to SAT execution if the selected SAT requires compilation in the execution process. This script can be modified to cover other build processes such as [cmake](https://cmake.org/cmake/help/latest/guide/tutorial/index.html) or [Bazel](https://bazel.build/).
+Currently, the framework only supports target commits that use [GNU Automake](https://www.gnu.org/software/automake/manual/automake.html) build process. For each commit, [`./script/tool/pre-compile.sh`](./script/tool/pre-compile.sh) is run prior to SAT execution if the selected SAT requires compilation in the execution process. This script can be modified to cover other build processes such as [cmake](https://cmake.org/cmake/help/latest/guide/tutorial/index.html) or [Bazel](https://bazel.build/).
 
 ### Modify Time Limit
 All shell commands in pipeline are executed through function `run_command` in [./script/util.py](./script/util.py). Modify following condition to set the new time limit:
@@ -154,7 +154,7 @@ By default, the time limit of a command is 5 hours. Note that the pre-compilatio
 
 ### Add New SATs
 #### Prepare SAT Directory
-The pipeline can recognize an integrated SAT by looking up the folders inside `./script/tool/`. The most convenient approach to add a new SAT is to duplicate the template folder [`./script/tool/sat_template`](script/tool/sat_template) and rename it for the new tool. Each SAT has two required components: `entrypoint.sh` (for installing the tool inside the runner and starting the pipeline) and `handle.py` (for pipeline interactions such as the execution commands and pre/post execution commands).
+The framework can recognize an integrated SAT by looking up the folders inside `./script/tool/`. The most convenient approach to add a new SAT is to duplicate the template folder [`./script/tool/sat_template`](script/tool/sat_template) and rename it for the new tool. Each SAT has two required components: `entrypoint.sh` (for installing the tool inside the runner and starting the pipeline) and `handle.py` (for pipeline interactions such as the execution commands and pre/post execution commands).
 
 #### Prepare Runner Entrypoint
 The *entrypoint script* is the first bash script executed inside the runner when the container is started. It is meant to prepare the SAT inside the container by installing the selected version of SAT in the runner and ensure that SAT can be launched from any paths. As the entrypoint is called by `start-execution.sh`, it should accept two parameters: 1) instance_name and 2) input_file. The sample structure of an entrypoint can be seen in [`./script/tool/sat_template/entrypoint.sh`](./script/tool/sat_template/entrypoint.sh).
@@ -318,14 +318,14 @@ def get_analysis_commands(self, output_filename: str) -> list:
         ]
 ```
 
-Note that, by default, the pipeline executes tools with single job (-j 1) and does not activate or deactivate any rules other than what each tool initialy enabled.
+Note that, by default, the framework executes tools with single job (-j 1) and does not activate or deactivate any rules other than what each tool initialy enabled.
 
 
 ## Limitations
-Despite being designed for large-scale experiments, the pipeline has some noteworthy technical limitations that should be understood by the users.
+Despite being designed for large-scale experiments, the framework has some noteworthy technical limitations that should be understood by the users.
 - **Runner's Resource**: Some SATs may terminate the execution abruptly if the allocated resources e.g., disk space on host machine or the memory are insufficient. However, the resource requirements depend on the SAT settings. For example, CodeQL has the [soft-limit](https://github.com/github/codeql-cli-binaries/issues/11) on memory. It is recommended that users allocate enough resource and monitor the execution in order to adjust the resource allocation when the issue occurs.
-- **Potential Incompatible SAT Configurations on Certain System**: In particular, we encountered  the error when running Infer with more than one job assignment (-j2, -j3, ...) on MacOS (M1 and M2). This issue does not occur on other host system such as Ubuntu. Therefore, all SATs in our pipeline are running with -j1 by default to overcome this issue. Please see [this section](#customize-sat-execution) to modify the configuration, if necessary. Additionally, there can be other configuration issues in other tools that we haven't yet discovered.
+- **Potential Incompatible SAT Configurations on Certain System**: In particular, we encountered  the error when running Infer with more than one job assignment (-j2, -j3, ...) on MacOS (M1 and M2). This issue does not occur on other host system such as Ubuntu. Therefore, all SATs in our framework are running with -j1 by default to overcome this issue. Please see [this section](#customize-sat-execution) to modify the configuration, if necessary. Additionally, there can be other configuration issues in other tools that we haven't yet discovered.
 - **Unique Pre-Compilation Steps**: Our pre-compilation step (see [this section](#target-commit-pre-compilation-process)) can support most C/C++ projects that use the typical build process. Specifically, the script executes either `autogen.sh`, `build.sh`, or `bootstrap.sh` to generate build configuration files. Then, it executes `configure` to prepare for build process. This pre-compilation process should be modified if the target commits follow the alternate approaches such as having the build configuration generation file under other names.
 - **Unlisted Target Commit Dependencies**: Although many frequently-used packages are installed in the runner's base image, some target commits from the other projects may require other packages that are not included. Users should monitor the execution and review the error messages when the execution failed during the compilation or pre-compilation steps. Target commit dependencies can be managed following the instruction in [this section](#manage-target-commit-dependency).
 
-We would like to thankfully acknowledge the support from our colleagues who reported these limitations and provided the valuable feedback to improve this pipeline.
+We would like to thankfully acknowledge the support from our colleagues who reported these limitations and provided the valuable feedback to improve this framework.
