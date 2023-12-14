@@ -1,4 +1,4 @@
-# An Extensible Automated Benchmarking Framework for Static Analyis Tool Evaluation Using Open-Source Code Commits
+# An Extensible Automated Benchmarking Framework for Static Analysis Tool Evaluation Using Open-Source Code Commits
 
 ## Overview
 This automated framework is developed for facilitating the large-scale experiments of C/C++ Static Analysis Tools on the target set of open-source code commits (i.e., GitHub commits). 
