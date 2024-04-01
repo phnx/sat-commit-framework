@@ -2,16 +2,16 @@
 
 ## Overview
 This automated framework is developed for facilitating the large-scale experiments of C/C++ Static Analysis Tools on the target set of open-source code commits (i.e., GitHub commits). 
-The framework consists of two major parts: the central database and the runners. Each runner is responsible for running a experiment trial in the pipeline i.e., executing a selected SAT on a set of target commits and storing the warnings or reports in a folder on host machine. The central database collects the execution results (i.e., succcess, failed, checkedout_failed, or timeout) and start-end timestamps of each commit from each trial.
+The framework consists of two major parts: the central database and the runners. Each runner is responsible for running a experiment trial in the pipeline i.e., executing a selected SAST on a set of target commits and storing the warnings or reports in a folder on host machine. The central database collects the execution results (i.e., succcess, failed, checkedout_failed, or timeout) and start-end timestamps of each commit from each trial.
 
-In the current version, five widely-used C/C++ SATs i.e., CodeChecker, CodeQL, Cppcheck, Flawfinder, and Infer are integrated. Users can freely added the new SATs of choice or modify the existing framework components by following the instructions in [this section](#framework-customization). Technically, this framework should also support SATs and target commits of other programming languages (including the commits hosted on other platforms) as long as the commit is accessible via a certain URL and the SATs can run on command-line. However, it has neither been implemented nor tested. Users are encouraged to visit the known limitations which are listed in [this section](#limitations) prior to using the framework.
+In the current version, five widely-used C/C++ SASTs i.e., CodeChecker, CodeQL, Cppcheck, Flawfinder, and Infer are integrated. Users can freely added the new SASTs of choice or modify the existing framework components by following the instructions in [this section](#framework-customization). Technically, this framework should also support SASTs and target commits of other programming languages (including the commits hosted on other platforms) as long as the commit is accessible via a certain URL and the SASTs can run on command-line. However, it has neither been implemented nor tested. Users are encouraged to visit the known limitations which are listed in [this section](#limitations) prior to using the framework.
 
-With this framework, user can conduct various SAT experiment trials on a set of target commits and gather the results for further analyses such as the effectiveness of SATs to detect security issues in the early development process. All elements of the framework operate in the Docker environment for portability and scalability. To modify the runner's resources such as allocated memory or CPU cores, see [this section](#configure-runner-resource). To run a trial, user must prepare the list of target commits as described in [this section](#prepare-target-commits-for-sat-trial). Then start the trial following the instructions in [this section](#start-a-trial). 
+With this framework, user can conduct various SAST experiment trials on a set of target commits and gather the results for further analyses such as the effectiveness of SASTs to detect security issues in the early development process. All elements of the framework operate in the Docker environment for portability and scalability. To modify the runner's resources such as allocated memory or CPU cores, see [this section](#configure-runner-resource). To run a trial, user must prepare the list of target commits as described in [this section](#prepare-target-commits-for-sast-trial). Then start the trial following the instructions in [this section](#start-a-trial). 
 
 ## Future Work
-We aim to improve this framework into a complete SAT benchmark for evaluating the performance of *SAT-under-test* on the target commits that contain certain issues. To do so, we are working toward accomplishing the following tasks. 
+We aim to improve this framework into a complete SAST benchmark for evaluating the performance of *SAST-under-test* on the target commits that contain certain issues. To do so, we are working toward accomplishing the following tasks. 
 - Define a standard format for test oracle of the target commits i.e., a) buggy files, buggy functions, or buggy lines in target commits and b) expected issue types such as CWE number
-- Attach the analysis extension to systematically analyze and compare SAT performance from multople trials i.e., detection effectiveness, , and computation time
+- Attach the analysis extension to systematically analyze and compare SAST performance from multople trials i.e., detection effectiveness, , and computation time
 - Implement a reporting module that automatically translates and visualizes the analysis results
 
 ## Framework Workflow
@@ -22,7 +22,7 @@ Build Runner Image (Manage Target Commit Dependencies)
 Start Central Database --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
 Start Runner 1 --                                                                                                                                             ^
                  \                                                                                                                                            |
-                  --> Install SAT --                                                                                                                          |
+                  --> Install SAST --                                                                                                                          |
                                     \                                                                                                                  Execution Result
                                      --> Read Target Commits & Loop --                                                                                        |
                                                                       \                                                                                       |
@@ -63,8 +63,8 @@ Then, enter the default password for PostgreSQL database: `postgresql`; select t
 select * from execution_log;
 ```
 
-## Prepare Target Commits for SAT Trial
-The list of target code commits for SAT analysis stored in CSV file in following format.
+## Prepare Target Commits for SAST Trial
+The list of target code commits for SAST analysis stored in CSV file in following format.
 ```text
 project,cve,cwe,hash
 memcached/memcached,CVE-2010-1152,707,32f382b605b4565bddfae5c9d082af3bfd30cf02
@@ -84,12 +84,12 @@ In root directory, run the following command with four parameters:
 bash ./start-execution.sh [runner_type] [tool_name] [instance_name] [input_csv_in_data_ref_folder] [record_data:yes|no]
 ```
 
-1. **runner_type**: select the type of runner that is suitable for the selected SAT. 
-   1. `custom` runner has all the dependencies (See [this section](#manage-target-commit-dependency)) installed to support SAT that requires compilation of the test subject
-   2. `clean` runner has only fundamental dependencies to run SATs that do not require the compilation
-2. **tool_name**: a name of SAT integrated in the framework, by default five SATs are available: `codechecker`, `codeql`, `cppcheck`, `infer`, and `flawfinder`.
+1. **runner_type**: select the type of runner that is suitable for the selected SAST. 
+   1. `custom` runner has all the dependencies (See [this section](#manage-target-commit-dependency)) installed to support SAST that requires compilation of the test subject
+   2. `clean` runner has only fundamental dependencies to run SASTs that do not require the compilation
+2. **tool_name**: a name of SAST integrated in the framework, by default five SASTs are available: `codechecker`, `codeql`, `cppcheck`, `infer`, and `flawfinder`.
 3. **instance_name**: a unique name that can identify the trial. This name will be used in central database and as the result folder.
-4. **input_csv_in_data_ref_folder**: file name of a csv file in foler [`data-ref`](./data-ref/) (with .csv extension) that contain list of target commits (See [this section](#prepare-target-commits-for-sat-trial)).
+4. **input_csv_in_data_ref_folder**: file name of a csv file in foler [`data-ref`](./data-ref/) (with .csv extension) that contain list of target commits (See [this section](#prepare-target-commits-for-sast-trial)).
 5. **record_data:yes|no**: record execution results in database. in case of *no*, the runner operates without communicating with central database.
 
 For example:
@@ -101,7 +101,7 @@ bash ./start-execution.sh custom codeql codeql-trial1 test-selected-commit.csv y
 bash ./start-execution.sh clean flawfinder flawfinder-trial1 test-selected-commit.csv no
 ```
 
-The SAT warnings or outputs from each trial will be stored in folder `./output/[instance_name]`, in the original format that the tool produces which can be configured following the instructions in [this section](#customize-sat-execution).
+The SAST warnings or outputs from each trial will be stored in folder `./output/[instance_name]`, in the original format that the tool produces which can be configured following the instructions in [this section](#customize-sast-execution).
 
 To monitor the runner, use following command to print real-time logs:
 ```bash
@@ -124,7 +124,7 @@ docker run -d --network=host \
 The available parameters can be seen [here](https://docs.docker.com/engine/reference/commandline/run/).
 
 ### Manage Target Commit Dependency
-For the runner of type `custom` that supports SATs which compiles the target commits during execution, the required dependencies of the target commits must be installed in the container to enable the compilation process. These dependencies are listed in `Dockerfile` in the following location [`./script/tool/Dockerfile-Base`](./script/tool/Dockerfile-Base).
+For the runner of type `custom` that supports SASTs which compiles the target commits during execution, the required dependencies of the target commits must be installed in the container to enable the compilation process. These dependencies are listed in `Dockerfile` in the following location [`./script/tool/Dockerfile-Base`](./script/tool/Dockerfile-Base).
 User can add or remove the dependencies in the following command:
 ```text
 RUN apt-get -y update && \
@@ -143,7 +143,7 @@ RUN apt-get -y update && \
 Delete docker containers (existing runners) and image; then, rebuild the image (or simply start the new trial) to let the change take effect.
 
 ### Target Commit Pre-Compilation Process
-Currently, the framework only supports target commits that use [GNU Automake](https://www.gnu.org/software/automake/manual/automake.html) build process. For each commit, [`./script/tool/pre-compile.sh`](./script/tool/pre-compile.sh) is run prior to SAT execution if the selected SAT requires compilation in the execution process. This script can be modified to cover other build processes such as [cmake](https://cmake.org/cmake/help/latest/guide/tutorial/index.html) or [Bazel](https://bazel.build/).
+Currently, the framework only supports target commits that use [GNU Automake](https://www.gnu.org/software/automake/manual/automake.html) build process. For each commit, [`./script/tool/pre-compile.sh`](./script/tool/pre-compile.sh) is run prior to SAST execution if the selected SAST requires compilation in the execution process. This script can be modified to cover other build processes such as [cmake](https://cmake.org/cmake/help/latest/guide/tutorial/index.html) or [Bazel](https://bazel.build/).
 
 ### Modify Time Limit
 All shell commands in pipeline are executed through function `run_command` in [./script/util.py](./script/util.py). Modify following condition to set the new time limit:
@@ -152,12 +152,12 @@ run(..., timeout=60 * 60 * 5, ...)
 ```
 By default, the time limit of a command is 5 hours. Note that the pre-compilation process may also cause a timeout failure if it takes longer time than the limit.
 
-### Add New SATs
-#### Prepare SAT Directory
-The framework can recognize an integrated SAT by looking up the folders inside `./script/tool/`. The most convenient approach to add a new SAT is to duplicate the template folder [`./script/tool/sat_template`](script/tool/sat_template) and rename it for the new tool. Each SAT has two required components: `entrypoint.sh` (for installing the tool inside the runner and starting the pipeline) and `handle.py` (for pipeline interactions such as the execution commands and pre/post execution commands).
+### Add New SASTs
+#### Prepare SAST Directory
+The framework can recognize an integrated SAST by looking up the folders inside `./script/tool/`. The most convenient approach to add a new SAST is to duplicate the template folder [`./script/tool/sat_template`](script/tool/sat_template) and rename it for the new tool. Each SAST has two required components: `entrypoint.sh` (for installing the tool inside the runner and starting the pipeline) and `handle.py` (for pipeline interactions such as the execution commands and pre/post execution commands).
 
 #### Prepare Runner Entrypoint
-The *entrypoint script* is the first bash script executed inside the runner when the container is started. It is meant to prepare the SAT inside the container by installing the selected version of SAT in the runner and ensure that SAT can be launched from any paths. As the entrypoint is called by `start-execution.sh`, it should accept two parameters: 1) instance_name and 2) input_file. The sample structure of an entrypoint can be seen in [`./script/tool/sat_template/entrypoint.sh`](./script/tool/sat_template/entrypoint.sh).
+The *entrypoint script* is the first bash script executed inside the runner when the container is started. It is meant to prepare the SAST inside the container by installing the selected version of SAST in the runner and ensure that SAST can be launched from any paths. As the entrypoint is called by `start-execution.sh`, it should accept two parameters: 1) instance_name and 2) input_file. The sample structure of an entrypoint can be seen in [`./script/tool/sat_template/entrypoint.sh`](./script/tool/sat_template/entrypoint.sh).
 
 #### Prepare Tool Handle
 Tool handle manages how pipeline interacts with each tool. To streamline the interactions, each tool handle is the child class of [`script/tool/ToolClass.py`](./script/tool/ToolClass.py). See the following snippet for the docstrings of the mandatory functions.
@@ -177,7 +177,7 @@ Tool handle manages how pipeline interacts with each tool. To streamline the int
         Constant function to indicate the type of tool
 
         Params: None
-        Returns: string "SAT"
+        Returns: string "SAST"
         """
         ...
 
@@ -219,7 +219,7 @@ Tool handle manages how pipeline interacts with each tool. To streamline the int
 
     def get_pre_analysis_commands(self) -> list:
         """
-        Mandatory commands that must be run before the actual SAT execution i.e., the pre-compilation script
+        Mandatory commands that must be run before the actual SAST execution i.e., the pre-compilation script
 
         Params: None
         Returns: None
@@ -237,7 +237,7 @@ Tool handle manages how pipeline interacts with each tool. To streamline the int
 
     def get_analysis_commands(self, output_filename: str) -> list:
         """
-        Main SAT execution commands, either single ot multiple sets of commands
+        Main SAST execution commands, either single ot multiple sets of commands
 
         Params: output_filename of the commit as specified by the pipeline
         Returns: list
@@ -246,7 +246,7 @@ Tool handle manages how pipeline interacts with each tool. To streamline the int
 
     def get_expected_analysis_commands_return_codes(self) -> list:
         """
-        Normally the successful execution should return code 0, but some SATs may return different returncodes
+        Normally the successful execution should return code 0, but some SASTs may return different returncodes
 
         Params: None
         Returns: list of returncodes that are considered successful for the command; when the list is empty, pipeline expects returncode 0
@@ -255,7 +255,7 @@ Tool handle manages how pipeline interacts with each tool. To streamline the int
 
     def get_post_analysis_commands(self, output_filename: str) -> list:
         """
-        Final commands that should be run after the main SAT execution. For example, deleting the unnecessary outputs that may take up diskspace. Not that the pipeline already takes care of commit checkout process. This script should not manage the commit clean up.
+        Final commands that should be run after the main SAST execution. For example, deleting the unnecessary outputs that may take up diskspace. Not that the pipeline already takes care of commit checkout process. This script should not manage the commit clean up.
 
         Params: output_filename of the commit as specified by the pipeline
         Returns: list
@@ -264,18 +264,18 @@ Tool handle manages how pipeline interacts with each tool. To streamline the int
 
     def get_transaction_result(self, output_filename: str) -> list:
         """
-        Get the list of warnings in a common format, containing the essential information i.e., location_hash, location_file, location_start_line, location_start_column, location_end_line, location_end_column, warning_rule_id, warning_rule_name, warning_message, warning_weakness, and warning_severity. This function should read and extract information from the warning file and prepare SATResult objects with all necessary information, especially warning_weakness and warning_severity, mapped.
+        Get the list of warnings in a common format, containing the essential information i.e., location_hash, location_file, location_start_line, location_start_column, location_end_line, location_end_column, warning_rule_id, warning_rule_name, warning_message, warning_weakness, and warning_severity. This function should read and extract information from the warning file and prepare SASTResult objects with all necessary information, especially warning_weakness and warning_severity, mapped.
 
         Params: output_filename of the commit as specified by the pipeline
-        Returns: list of objects in SATResult class
+        Returns: list of objects in SASTResult class
         """
         ...
 ```
 
 When a new handle is created, it must be added to [`./script/tool/factory.py`](./script/tool/factory.py) so that the pipeline can initiate the tool handle correctly.
 
-### Customize SAT Execution
-The tool handle (`./script/tool/tool_name/handle.py`) controls parameters used in SAT execution, which are unique for different SATs. For instance, the build commands, the output format and location, and activated checking rules. These parameters of the existing tools can be modified. See the following examples:
+### Customize SAST Execution
+The tool handle (`./script/tool/tool_name/handle.py`) controls parameters used in SAST execution, which are unique for different SASTs. For instance, the build commands, the output format and location, and activated checking rules. These parameters of the existing tools can be modified. See the following examples:
 
 Single step (Cppcheck):
 ```python
@@ -323,8 +323,8 @@ Note that, by default, the framework executes tools with single job (-j 1) and d
 
 ## Limitations
 Despite being designed for large-scale experiments, the framework has some noteworthy technical limitations that should be understood by the users.
-- **Runner's Resource**: Some SATs may terminate the execution abruptly if the allocated resources e.g., disk space on host machine or the memory are insufficient. However, the resource requirements depend on the SAT settings. For example, CodeQL has the [soft-limit](https://github.com/github/codeql-cli-binaries/issues/11) on memory. It is recommended that users allocate enough resource and monitor the execution in order to adjust the resource allocation when the issue occurs.
-- **Potential Incompatible SAT Configurations on Certain System**: In particular, we encountered  the error when running Infer with more than one job assignment (-j2, -j3, ...) on MacOS (M1 and M2). This issue does not occur on other host system such as Ubuntu. Therefore, all SATs in our framework are running with -j1 by default to overcome this issue. Please see [this section](#customize-sat-execution) to modify the configuration, if necessary. Additionally, there can be other configuration issues in other tools that we haven't yet discovered.
+- **Runner's Resource**: Some SASTs may terminate the execution abruptly if the allocated resources e.g., disk space on host machine or the memory are insufficient. However, the resource requirements depend on the SAST settings. For example, CodeQL has the [soft-limit](https://github.com/github/codeql-cli-binaries/issues/11) on memory. It is recommended that users allocate enough resource and monitor the execution in order to adjust the resource allocation when the issue occurs.
+- **Potential Incompatible SAST Configurations on Certain System**: In particular, we encountered  the error when running Infer with more than one job assignment (-j2, -j3, ...) on MacOS (M1 and M2). This issue does not occur on other host system such as Ubuntu. Therefore, all SASTs in our framework are running with -j1 by default to overcome this issue. Please see [this section](#customize-sast-execution) to modify the configuration, if necessary. Additionally, there can be other configuration issues in other tools that we haven't yet discovered.
 - **Unique Pre-Compilation Steps**: Our pre-compilation step (see [this section](#target-commit-pre-compilation-process)) can support most C/C++ projects that use the typical build process. Specifically, the script executes either `autogen.sh`, `build.sh`, or `bootstrap.sh` to generate build configuration files. Then, it executes `configure` to prepare for build process. This pre-compilation process should be modified if the target commits follow the alternate approaches such as having the build configuration generation file under other names.
 - **Unlisted Target Commit Dependencies**: Although many frequently-used packages are installed in the runner's base image, some target commits from the other projects may require other packages that are not included. Users should monitor the execution and review the error messages when the execution failed during the compilation or pre-compilation steps. Target commit dependencies can be managed following the instruction in [this section](#manage-target-commit-dependency).
 - **Flawfinder Source Code Encoding**: Flawfinder requires all source files to be encoded in UTF-8. Thus, we used the [ftfy](https://ftfy.readthedocs.io) Python package to convert source code files to UTF-8.
