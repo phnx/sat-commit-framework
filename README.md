@@ -1,6 +1,6 @@
 # An Extensible Automated Benchmarking Framework for Static Analysis Tool Evaluation Using Open-Source Code Commits
 
-For the paper, please see (An Empirical Study of Static Analysis Tools for Secure Code Review)[https://dl.acm.org/doi/10.1145/3650212.3680313].
+For the paper, please see [An Empirical Study of Static Analysis Tools for Secure Code Review](https://dl.acm.org/doi/10.1145/3650212.3680313).
 
 ## Overview
 This automated framework is developed for facilitating the large-scale experiments of C/C++ Static Analysis Tools on the target set of open-source code commits (i.e., GitHub commits). 
