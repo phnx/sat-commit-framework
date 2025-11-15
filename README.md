@@ -1,5 +1,7 @@
 # An Extensible Automated Benchmarking Framework for Static Analysis Tool Evaluation Using Open-Source Code Commits
 
+For the paper, please see (An Empirical Study of Static Analysis Tools for Secure Code Review)[https://dl.acm.org/doi/10.1145/3650212.3680313].
+
 ## Overview
 This automated framework is developed for facilitating the large-scale experiments of C/C++ Static Analysis Tools on the target set of open-source code commits (i.e., GitHub commits). 
 The framework consists of two major parts: the central database and the runners. Each runner is responsible for running a experiment trial in the pipeline i.e., executing a selected SAST on a set of target commits and storing the warnings or reports in a folder on host machine. The central database collects the execution results (i.e., succcess, failed, checkedout_failed, or timeout) and start-end timestamps of each commit from each trial.
