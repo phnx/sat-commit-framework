@@ -332,3 +332,22 @@ Despite being designed for large-scale experiments, the framework has some notew
 - **Flawfinder Source Code Encoding**: Flawfinder requires all source files to be encoded in UTF-8. Thus, we used the [ftfy](https://ftfy.readthedocs.io) Python package to convert source code files to UTF-8.
 
 We would like to thankfully acknowledge the support from our colleagues who reported these limitations and provided the valuable feedback to improve this framework.
+
+## Citation
+Please consider citing this publication if you use dataset or code from this repository.
+
+```
+@inproceedings{10.1145/3650212.3680313,
+author = {Charoenwet, Wachiraphan and Thongtanunam, Patanamon and Pham, Van-Thuan and Treude, Christoph},
+title = {An Empirical Study of Static Analysis Tools for Secure Code Review},
+year = {2024},
+isbn = {9798400706127},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3650212.3680313},
+doi = {10.1145/3650212.3680313},
+booktitle = {Proceedings of the 33rd ACM SIGSOFT International Symposium on Software Testing and Analysis},
+pages = {691–703},
+keywords = {Code Changes Prioritization, Code Review, Static Application Security Testing Tool},
+}
+```
